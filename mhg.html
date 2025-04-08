@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الطلاب - كلية القولد التقنية</title>
+    <style>
+        body { font-family: Arial; direction: rtl; padding: 20px; }
+        input, button { padding: 5px; margin: 5px; width: 90%; max-width: 300px; }
+        section { margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+
+    <h2>تسجيل طالب جديد</h2>
+    <section>
+        <input type="text" id="name" placeholder="الاسم الكامل"><br>
+        <input type="text" id="student_id" placeholder="الرقم الجامعي"><br>
+        <input type="email" id="email" placeholder="البريد الإلكتروني"><br>
+        <input type="text" id="department" placeholder="التخصص"><br>
+        <button onclick="registerStudent()">تسجيل</button>
+        <p id="register-msg"></p>
+    </section>
+
+    <hr>
+
+    <h2>دخول المشرف</h2>
+    <section>
+        <input type="text" id="admin_user" placeholder="اسم المستخدم"><br>
+        <input type="password" id="admin_pass" placeholder="كلمة المرور"><br>
+        <button onclick="loginAdmin()">دخول</button>
+        <p id="login-msg"></p>
+    </section>
+
+    <script>
+        // تسجيل طالب
+        function registerStudent() {
+            const name = document.getElementById("name").value;
+            const student_id = document.getElementById("student_id").value;
+            const email = document.getElementById("email").value;
+            const department = document.getElementById("department").value;
+
+            if (name && student_id && email && department) {
+                const student = { name, student_id, email, department };
+                let students = JSON.parse(localStorage.getItem("students") || "[]");
+                students.push(student);
+                localStorage.setItem("students", JSON.stringify(students));
+                document.getElementById("register-msg").innerText = "تم التسجيل بنجاح!";
+                document.getElementById("name").value = "";
+                document.getElementById("student_id").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("department").value = "";
+            } else {
+                document.getElementById("register-msg").innerText = "يرجى تعبئة كل الحقول.";
+            }
+        }
+
+        // دخول المشرف
+        function loginAdmin() {
+            const user = document.getElementById("admin_user").value;
+            const pass = document.getElementById("admin_pass").value;
+
+            // اسم المستخدم وكلمة المرور ثابتة
+            if (user === "admin" && pass === "123456") {
+                window.location.href = "dashboard.html";
+            } else {
+                document.getElementById("login-msg").innerText = "بيانات الدخول غير صحيحة.";
+            }
+        }
+    </script>
+
+</body>
+</html>
